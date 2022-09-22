@@ -1,0 +1,17 @@
+[
+    {
+        "NAME": "Pavel",
+        "AGE": "32",
+        "GENDER": "m"
+    },
+    {
+        "NAME": "Andrey",
+        "AGE": "55",
+        "GENDER": "m"
+    },
+    {
+        "NAME": "Svetlana",
+        "AGE": "50",
+        "GENDER": "f"
+    }
+]
