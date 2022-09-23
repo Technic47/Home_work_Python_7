@@ -1,3 +1,4 @@
+import logger
 import csv
 import datetime
 import json
@@ -9,7 +10,6 @@ current_database = 'database/22092022.csv'
 
 def create_new():
     now = datetime.datetime.now()
-    # now = now.strftime("%d%m%Y_%H%M%S")
     now = now.strftime("%d%m%Y")
     name = f'/{now}.csv'
     path = data_path + name
@@ -48,6 +48,7 @@ def save_data(data):
     with open(current_database, 'a', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
         writer.writerow({cols[0]: data[0], cols[1]: data[1], cols[2]: data[2]})
+    return data
 
 
 def show_base():
@@ -79,6 +80,7 @@ def search():
                 # print(row)
                 if request == row[i]:
                     print(row)
+    return key, request
 
 
 def export_json():
