@@ -1,4 +1,3 @@
-import logger
 import csv
 import datetime
 import json
@@ -6,9 +5,13 @@ import UI
 
 data_path = r'database'
 current_database = 'database/22092022.csv'
+#
+
+search_result = ''
 
 
-def create_new():
+def create_new() -> str:
+    """Create a new database"""
     now = datetime.datetime.now()
     now = now.strftime("%d%m%Y")
     name = f'/{now}.csv'
@@ -17,8 +20,14 @@ def create_new():
     return path
 
 
-def set_cols(path):
+def set_cols(path) -> None:
+    """
+    set names of cols in db from path
+    :param path: db path
+    """
     print("Enter your cols via space:")
+    #cols = 'id ' + UI.get_data()
+    #data = dict.fromkeys(cols.split(' '))
     data = dict.fromkeys(UI.get_data().split(' '))
     print(data)
     with open(path, 'w', newline='') as csvfile:
@@ -26,24 +35,33 @@ def set_cols(path):
         writer.writerow(data)
 
 
-def get_info(path):
+def get_info(path) -> None:
+    """shows db path"""
     print(path)
 
 
-def get_cols():
+def get_cols() -> []:
+    """shows header of db"""
     with open(current_database, 'r', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         rows = reader.fieldnames
         return rows
 
 
-def collect_data():
+def collect_data() -> []:
+    """create line for insertion"""
+    #global id
+    #print(id)
+    #id += 1
     print(f"Enter new record:\n{get_cols()}")
     record = input('').replace(';', ',').replace('.', ',').replace(' ', '').split(',')
+    #record.insert(0, id)
+    print(record)
     return record
 
 
-def save_data(data):
+def save_data(data) -> {}:
+    """adds line to db"""
     cols = get_cols()
     with open(current_database, 'a', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
@@ -51,7 +69,8 @@ def save_data(data):
     return data
 
 
-def show_base():
+def show_base() -> None:
+    """shows all records in current db"""
     rows = get_cols()
     print(rows)
     with open(current_database, encoding='utf-8') as csvfile:
@@ -60,12 +79,15 @@ def show_base():
             print(f'{row[rows[0]]}, {row[rows[1]]}, {row[rows[2]]}')
 
 
-def select_base(name):
+def select_base(name) -> None:
+    """selects db and place it to current position"""
     global current_database
     current_database = data_path + '/' + name + '.csv'
 
 
 def search():
+    global search_result
+    search_result = ''
     print("What key you want to search?")
     cols = get_cols()
     print(cols)
@@ -78,8 +100,9 @@ def search():
             csvfile = csv.reader(open(current_database, 'r'), delimiter=",")
             for row in csvfile:
                 # print(row)
-                if request == row[i]:
+                if request in row[i]:
                     print(row)
+
     return key, request
 
 

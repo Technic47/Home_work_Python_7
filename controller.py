@@ -4,13 +4,15 @@ import os
 
 
 def start():
-    logger.start_logger()
     print('System started')
+    logger.start_logger()
     while True:
         match input('Enter command: '):
             case 'exit':
                 logger.stop_logger()
                 quit()
+            case 'help':
+                print('READ_ME file may help you.')
             case 'new':
                 database1 = logger.log(database.create_new(), 'create')
                 print(f'New database created: {database1}')
@@ -42,5 +44,5 @@ def start():
                 logger.log('current database', 'exported as .json')
             case 'search':
                 logger.log(database.search(), 'searched')
-            case 'log clear':
+            case 'clear log':
                 logger.clear()
