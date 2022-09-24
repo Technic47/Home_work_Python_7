@@ -42,3 +42,5 @@ def start():
                 logger.log('current database', 'exported as .json')
             case 'search':
                 logger.log(database.search(), 'searched')
+            case 'log clear':
+                logger.clear()

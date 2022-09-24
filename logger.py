@@ -26,6 +26,12 @@ def log(data, action: str):
     return data
 
 
+def clear():
+    with open(current_log, 'w') as text:
+        text.write(f'{now} - session cleared')
+    print('Current log cleared')
+
+
 def stop_logger():
     with open(current_log, 'a') as text:
         text.write(f"{now} - session closed;")
