@@ -1,0 +1,6 @@
+Current database - database/22092022.csv
+24092022_015012 - session started;
+24092022_015012 - current database shown;
+24092022_015012 - ('name', 'Petr') searched;
+24092022_015012 - ['Petr', '47', 'm'] added;
+24092022_015012 - session closed;

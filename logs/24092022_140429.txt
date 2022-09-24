@@ -1,0 +1,4 @@
+Current database - database/22092022.csv
+24092022_140429 - session started;
+24092022_140429 - ['Alexa', '45', 'f'] added;
+24092022_140429 - current database shown;
