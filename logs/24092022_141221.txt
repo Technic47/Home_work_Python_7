@@ -1,6 +1,0 @@
-Current database - database/22092022.csv
-24092022_141221 - session started;
-24092022_141221 - current database shown;
-24092022_141221 - ['Artur', '21', 'm'] added;
-24092022_141221 - current database shown;
-24092022_141221 - session closed;

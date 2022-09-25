@@ -39,9 +39,18 @@ def start():
                 database.select_base(name)
                 logger.log(name, 'selected')
                 logger.log(database.current_database, ' set as current')
-            case 'export':
+            case 'export json':
                 database.export_json()
                 logger.log('current database', 'exported as .json')
+            case 'export xml':
+                database.export_xml()
+                logger.log('current database', 'exported as .xml')
+            case 'import xml':
+                database.import_xml()
+                logger.log('xmlfile', 'imported')
+            case 'import json':
+                database.import_json()
+                logger.log('jsonfile', 'imported')
             case 'search':
                 logger.log(database.search(), 'searched')
             case 'clear log':

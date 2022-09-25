@@ -1,3 +1,5 @@
+from xml.etree import ElementTree
+import pandas
 import csv
 import datetime
 import json
@@ -26,8 +28,8 @@ def set_cols(path) -> None:
     :param path: db path
     """
     print("Enter your cols via space:")
-    #cols = 'id ' + UI.get_data()
-    #data = dict.fromkeys(cols.split(' '))
+    # cols = 'id ' + UI.get_data()
+    # data = dict.fromkeys(cols.split(' '))
     data = dict.fromkeys(UI.get_data().split(' '))
     print(data)
     with open(path, 'w', newline='') as csvfile:
@@ -50,12 +52,12 @@ def get_cols() -> []:
 
 def collect_data() -> []:
     """create line for insertion"""
-    #global id
-    #print(id)
-    #id += 1
+    # global id
+    # print(id)
+    # id += 1
     print(f"Enter new record:\n{get_cols()}")
     record = input('').replace(';', ',').replace('.', ',').replace(' ', '').split(',')
-    #record.insert(0, id)
+    # record.insert(0, id)
     print(record)
     return record
 
@@ -86,6 +88,7 @@ def select_base(name) -> None:
 
 
 def search():
+    """Search function in current db"""
     global search_result
     search_result = ''
     print("What key you want to search?")
@@ -107,6 +110,7 @@ def search():
 
 
 def export_json():
+    """export current db to .json file"""
     json_array = []
     with open(current_database, encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -117,3 +121,63 @@ def export_json():
     with open(json_path, 'w', encoding='utf-8') as jsonfile:
         jsonstr = json.dumps(json_array, indent=4)
         jsonfile.write(jsonstr)
+
+
+def import_json():
+    cols = get_cols()
+    print("Destination path:")
+    json_path = UI.get_data() + '.json'
+    with open(json_path, encoding='utf-8') as inputfile:
+        df = pandas.read_json(inputfile)
+    df.to_csv('cache/testfile.csv', encoding='utf-8', index=False)
+    print("Would you like to add imported data to current db?\nY/N")
+    answer = UI.get_data()
+    if answer == 'Y' or answer == 'y':
+        with open('cache/testfile.csv', newline='') as csvfile:
+            data = csv.DictReader(csvfile)
+            with open(current_database, 'a', newline='') as csvfile:
+                writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
+                for row in data:
+                    writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
+
+
+def convert_xml(headers, row):
+    s = f'<row>\n'
+    for header, item in zip(headers, row):
+        s += f'    <{header}>' + f'{item}' + f'</{header}>\n'
+    return s + '</row>'
+
+
+def export_xml():
+    with open(current_database, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        headers = next(reader)
+        xml = '<data>\n'
+        for row in reader:
+            xml += convert_xml(headers, row) + '\n'
+        xml += '</data>'
+    print("Destination path:")
+    xml_path = UI.get_data() + '.xml'
+    with open(xml_path, 'w', encoding='utf-8') as xmlfile:
+        xmlfile.write(xml)
+
+
+def import_xml():
+    cols = get_cols()
+    rows = []
+    print("Destination path:")
+    xml_path = UI.get_data() + '.xml'
+    tree = ElementTree.parse(xml_path)
+    root = tree.getroot()
+    header = get_cols()
+    for i in root:
+        col1 = i.find(str(header[0])).text
+        col2 = i.find(str(header[1])).text
+        col3 = i.find(str(header[2])).text
+
+        rows.append({str(header[0]): col1,
+                     str(header[1]): col2,
+                     str(header[2]): col3})
+
+    df = pandas.DataFrame(rows, columns=cols)
+    df.to_csv('test.csv')

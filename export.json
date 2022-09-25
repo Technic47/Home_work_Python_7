@@ -1,17 +1,112 @@
 [
     {
-        "NAME": "Pavel",
-        "AGE": "32",
-        "GENDER": "m"
+        "name": "Pavel",
+        "age": "32",
+        "gender": "m"
     },
     {
-        "NAME": "Andrey",
-        "AGE": "55",
-        "GENDER": "m"
+        "name": "Pavel",
+        "age": "32",
+        "gender": "m"
     },
     {
-        "NAME": "Svetlana",
-        "AGE": "50",
-        "GENDER": "f"
+        "name": "Andrey",
+        "age": "55",
+        "gender": "m"
+    },
+    {
+        "name": "Svetlana",
+        "age": "50",
+        "gender": "f"
+    },
+    {
+        "name": "Nike",
+        "age": "15",
+        "gender": "m"
+    },
+    {
+        "name": "Nika",
+        "age": "25",
+        "gender": "f"
+    },
+    {
+        "name": "Ivan",
+        "age": "32",
+        "gender": "m"
+    },
+    {
+        "name": "Katya",
+        "age": "25",
+        "gender": "f"
+    },
+    {
+        "name": "Marta",
+        "age": "50",
+        "gender": "f"
+    },
+    {
+        "name": "Petr",
+        "age": "30",
+        "gender": "m"
+    },
+    {
+        "name": "Konstantin",
+        "age": "45",
+        "gender": "m"
+    },
+    {
+        "name": "Pavel",
+        "age": "44",
+        "gender": "m"
+    },
+    {
+        "name": "Konstantin",
+        "age": "34",
+        "gender": "m"
+    },
+    {
+        "name": "Margo",
+        "age": "54",
+        "gender": "f"
+    },
+    {
+        "name": "Ilya",
+        "age": "15",
+        "gender": "m"
+    },
+    {
+        "name": "Margo",
+        "age": "25",
+        "gender": "f"
+    },
+    {
+        "name": "Petr",
+        "age": "32",
+        "gender": "m"
+    },
+    {
+        "name": "Anrey",
+        "age": "55",
+        "gender": "12345"
+    },
+    {
+        "name": "Svetlana",
+        "age": "32",
+        "gender": "67890"
+    },
+    {
+        "name": "Petr",
+        "age": "47",
+        "gender": "m"
+    },
+    {
+        "name": "Alexa",
+        "age": "45",
+        "gender": "f"
+    },
+    {
+        "name": "Artur",
+        "age": "21",
+        "gender": "m"
     }
 ]

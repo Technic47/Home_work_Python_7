@@ -1,2 +1,0 @@
-Current database - database/22092022.csv
-24092022_132724 - session started;

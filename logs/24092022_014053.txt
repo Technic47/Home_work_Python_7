@@ -1,6 +1,0 @@
-24092022_014053 - session started;
-24092022_014053 - current_database shown;
-24092022_014053 - ['Anrey', '55', '12345'] added;
-24092022_014053 - ['Svetlana', '32', '67890'] added;
-24092022_014053 - current_database shown;
-24092022_014053 - session closed;

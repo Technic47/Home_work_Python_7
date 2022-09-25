@@ -1,6 +1,0 @@
-24092022_013744 - session started;24092022_013744 - database/24092022.csv create;
-24092022_013744 - database/24092022.csv st as current;
-24092022_013744 - databases shown;
-24092022_013744 - current_database shown;
-24092022_013744 - None added;
-24092022_013744 - session closed;
