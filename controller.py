@@ -67,3 +67,5 @@ def start():
                 logger.clear()
             case 'delete logs':
                 logger.delete()
+            case _:
+                print('Wrong command')

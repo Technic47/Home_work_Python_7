@@ -12,8 +12,6 @@ with open(setup, 'r') as file:
 # current_database = 'database/22092022.csv'
 setup = 'setup.txt'
 
-search_result = ''
-
 
 def create_new() -> str:
     """Create a new database"""
@@ -58,7 +56,7 @@ def get_cols() -> []:
 def collect_data() -> []:
     """create line for insertion"""
     print(f"Enter new record:\n{get_cols()}")
-    record = input('').replace(';', ',').replace('.', ',').replace(' ', '').split(',')
+    record = UI.get_data().replace(' ', '').replace(';', ',').replace('.', ',').replace(' ', '').split(',')
     print(record)
     return record
 
@@ -85,42 +83,57 @@ def show_base() -> None:
 def select_base(name) -> None:
     """selects db and place it to current position"""
     # global current_database
-    with open(setup, 'w') as file:
-        file.write(data_path + '/' + name + '.csv')
+    try:
+        open(data_path + '/' + name + '.csv')
+    except IOError:
+        print('File not found!')
+    else:
+        with open(setup, 'w') as file:
+            file.write(data_path + '/' + name + '.csv')
     # current_database = data_path + '/' + name + '.csv'
 
 
 def search():
     """Search function in current db"""
-    global search_result
-    search_result = ''
+    request = ''
     print("What key you want to search?")
     cols = get_cols()
     print(cols)
     key = UI.get_data()
-    for i in range(len(cols)):
-        if key == cols[i]:
-            print("Enter your request: ")
-            request = UI.get_data()
-            # request = 'Pavel'
-            csvfile = csv.reader(open(current_database, 'r'), delimiter=",")
-            for row in csvfile:
-                # print(row)
-                if request in row[i]:
-                    print(row)
+    if key == '':
+        print('Empty input')
+    elif key not in cols:
+        print('No match')
+    else:
+        for i in range(len(cols)):
+            if key == cols[i]:
+                print("Enter your request: ")
+                request = UI.get_data()
+                if request == '':
+                    print('Empty input')
+                else:
+                    csvfile = csv.reader(open(current_database, 'r'), delimiter=",")
+                    for row in csvfile:
+                        if request in row[i]:
+                            print(row)
     return key, request
 
 
 def merge(path: str) -> None:
     """Merge selected db to current"""
-    cols = get_cols()
-    with open(path, newline='') as csvfile:
-        data = csv.DictReader(csvfile)
-        with open(current_database, 'a', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
-            for row in data:
-                writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
-    print('File merged to current db')
+    try:
+        open(path)
+    except FileNotFoundError:
+        print('File not found!')
+    else:
+        cols = get_cols()
+        with open(path, newline='') as csvfile:
+            data = csv.DictReader(csvfile)
+            with open(current_database, 'a', newline='') as csvfile:
+                writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
+                for row in data:
+                    writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
+        print('File merged to current db')
 
 
 def export_json() -> None:
@@ -142,21 +155,26 @@ def import_json() -> None:
     cols = get_cols()
     print("Destination path:")
     json_path = UI.get_data() + '.json'
-    with open(json_path, encoding='utf-8') as inputfile:
-        df = pandas.read_json(inputfile)
-    df.to_csv('cache/testfile.csv', encoding='utf-8', index=False)
-    print("Would you like to merge imported data to current db?\nY/N")
-    answer = UI.get_data()
-    if answer == 'Y' or answer == 'y':
-        with open('cache/testfile.csv', newline='') as csvfile:
-            data = csv.DictReader(csvfile)
-            with open(current_database, 'a', newline='') as csvfile:
-                writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
-                for row in data:
-                    writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
-        print('json file merged to current db')
+    try:
+        open(json_path)
+    except FileNotFoundError:
+        print('File not found!')
     else:
-        print('Imported file stored in: "cache/testfile.csv"')
+        with open(json_path, encoding='utf-8') as inputfile:
+            df = pandas.read_json(inputfile)
+        df.to_csv('cache/testfile.csv', encoding='utf-8', index=False)
+        print("Would you like to merge imported data to current db?\nY/N")
+        answer = UI.get_data()
+        if answer == 'Y' or answer == 'y':
+            with open('cache/testfile.csv', newline='') as csvfile:
+                data = csv.DictReader(csvfile)
+                with open(current_database, 'a', newline='') as csvfile:
+                    writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
+                    for row in data:
+                        writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
+            print('json file merged to current db')
+        else:
+            print('Imported file stored in: "cache/testfile.csv"')
 
 
 def convert_xml(headers, row) -> str:
@@ -188,17 +206,22 @@ def import_xml() -> None:
     rows = []
     print("Destination path:")
     xml_path = UI.get_data() + '.xml'
-    tree = ElementTree.parse(xml_path)
-    root = tree.getroot()
-    header = get_cols()
-    for i in root:
-        col1 = i.find(str(header[0])).text
-        col2 = i.find(str(header[1])).text
-        col3 = i.find(str(header[2])).text
+    try:
+        open(xml_path)
+    except FileNotFoundError:
+        print('File not found!')
+    else:
+        tree = ElementTree.parse(xml_path)
+        root = tree.getroot()
+        header = get_cols()
+        for i in root:
+            col1 = i.find(str(header[0])).text
+            col2 = i.find(str(header[1])).text
+            col3 = i.find(str(header[2])).text
 
-        rows.append({str(header[0]): col1,
-                     str(header[1]): col2,
-                     str(header[2]): col3})
+            rows.append({str(header[0]): col1,
+                         str(header[1]): col2,
+                         str(header[2]): col3})
 
-    df = pandas.DataFrame(rows, columns=cols)
-    df.to_csv('test.csv')
+        df = pandas.DataFrame(rows, columns=cols)
+        df.to_csv('test.csv')
