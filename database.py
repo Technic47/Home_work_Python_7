@@ -5,9 +5,12 @@ import datetime
 import json
 import UI
 
+setup = 'setup.txt'
 data_path = r'database'
-current_database = 'database/22092022.csv'
-#
+with open(setup, 'r') as file:
+    current_database = file.read()
+# current_database = 'database/22092022.csv'
+setup = 'setup.txt'
 
 search_result = ''
 
@@ -19,6 +22,8 @@ def create_new() -> str:
     name = f'/{now}.csv'
     path = data_path + name
     set_cols(path)
+    with open(setup, 'w') as file:
+        file.write(path)
     return path
 
 
@@ -52,12 +57,8 @@ def get_cols() -> []:
 
 def collect_data() -> []:
     """create line for insertion"""
-    # global id
-    # print(id)
-    # id += 1
     print(f"Enter new record:\n{get_cols()}")
     record = input('').replace(';', ',').replace('.', ',').replace(' ', '').split(',')
-    # record.insert(0, id)
     print(record)
     return record
 
@@ -83,8 +84,10 @@ def show_base() -> None:
 
 def select_base(name) -> None:
     """selects db and place it to current position"""
-    global current_database
-    current_database = data_path + '/' + name + '.csv'
+    # global current_database
+    with open(setup, 'w') as file:
+        file.write(data_path + '/' + name + '.csv')
+    # current_database = data_path + '/' + name + '.csv'
 
 
 def search():
@@ -107,6 +110,17 @@ def search():
                     print(row)
 
     return key, request
+
+
+def merge(path):
+    cols = get_cols()
+    with open(path, newline='') as csvfile:
+        data = csv.DictReader(csvfile)
+        with open(current_database, 'a', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
+            for row in data:
+                writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
+    print('File merged to current db')
 
 
 def export_json():
@@ -139,6 +153,9 @@ def import_json():
                 writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
                 for row in data:
                     writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
+        print('json file merged to current db')
+    else:
+        print('Imported file stored in: "cache/testfile.csv"')
 
 
 def convert_xml(headers, row):

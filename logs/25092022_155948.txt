@@ -1,0 +1,9 @@
+Current database - database/22092022.csv
+25092022_155948 - session started;
+25092022_155948 - current database shown;
+25092022_155948 - current database exported as .json;
+25092022_155948 - jsonfile imported;
+25092022_155948 - current database shown;
+25092022_155948 - current database exported as .xml;
+25092022_155948 - cache cleared;
+25092022_155948 - session closed;

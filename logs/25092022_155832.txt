@@ -1,0 +1,3 @@
+Current database - database/22092022.csv
+25092022_155832 - session started;
+25092022_155832 - current database shown;

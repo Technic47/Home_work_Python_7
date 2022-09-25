@@ -1,0 +1,5 @@
+Current database - database/22092022.csv
+25092022_160644 - session started;
+25092022_160644 - current database shown;
+25092022_160644 - cache cleared;
+25092022_160644 - session closed;

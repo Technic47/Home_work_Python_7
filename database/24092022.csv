@@ -1,5 +1,5 @@
-id,name,age,phone
-1,Pavel,32,123
-2,Marina,32,4321
-3,Andrey,55,9876
-1,Svetlana,42,666777
+name,age,phone
+Pavel,32,123
+Marina,32,4321
+Andrey,55,9876
+Svetlana,42,666777

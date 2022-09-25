@@ -2,111 +2,111 @@
     {
         "name": "Pavel",
         "age": "32",
-        "gender": "m"
+        "phone": "654132"
     },
     {
         "name": "Pavel",
         "age": "32",
-        "gender": "m"
+        "phone": "324"
     },
     {
         "name": "Andrey",
         "age": "55",
-        "gender": "m"
+        "phone": "3654"
     },
     {
         "name": "Svetlana",
         "age": "50",
-        "gender": "f"
+        "phone": "987654"
     },
     {
         "name": "Nike",
         "age": "15",
-        "gender": "m"
+        "phone": "3455"
     },
     {
         "name": "Nika",
         "age": "25",
-        "gender": "f"
+        "phone": "324765"
     },
     {
         "name": "Ivan",
         "age": "32",
-        "gender": "m"
+        "phone": "6547"
     },
     {
         "name": "Katya",
         "age": "25",
-        "gender": "f"
+        "phone": "3543"
     },
     {
         "name": "Marta",
         "age": "50",
-        "gender": "f"
+        "phone": "3466"
     },
     {
         "name": "Petr",
         "age": "30",
-        "gender": "m"
+        "phone": "6354"
     },
     {
         "name": "Konstantin",
         "age": "45",
-        "gender": "m"
+        "phone": "666"
     },
     {
         "name": "Pavel",
         "age": "44",
-        "gender": "m"
+        "phone": "34"
     },
     {
         "name": "Konstantin",
         "age": "34",
-        "gender": "m"
+        "phone": "34"
     },
     {
         "name": "Margo",
         "age": "54",
-        "gender": "f"
+        "phone": ""
     },
     {
         "name": "Ilya",
         "age": "15",
-        "gender": "m"
+        "phone": "354321"
     },
     {
         "name": "Margo",
         "age": "25",
-        "gender": "f"
+        "phone": "35489"
     },
     {
         "name": "Petr",
         "age": "32",
-        "gender": "m"
+        "phone": "35"
     },
     {
         "name": "Anrey",
         "age": "55",
-        "gender": "12345"
+        "phone": "12345"
     },
     {
         "name": "Svetlana",
         "age": "32",
-        "gender": "67890"
+        "phone": "67890"
     },
     {
         "name": "Petr",
         "age": "47",
-        "gender": "m"
+        "phone": "324354"
     },
     {
         "name": "Alexa",
         "age": "45",
-        "gender": "f"
+        "phone": "6574"
     },
     {
         "name": "Artur",
         "age": "21",
-        "gender": "m"
+        "phone": "3243"
     }
 ]

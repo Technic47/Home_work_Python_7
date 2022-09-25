@@ -1,3 +1,4 @@
+import UI
 import cache
 import logger
 import database
@@ -42,6 +43,11 @@ def start():
                 database.select_base(name)
                 logger.log(name, 'selected')
                 logger.log(database.current_database, ' set as current')
+            case 'merge':
+                print("Enter name of database: ")
+                path = database.data_path + '/' + UI.get_data() + '.csv'
+                database.merge(path)
+                logger.log(path, 'merged with current db')
             case 'export json':
                 database.export_json()
                 logger.log('current database', 'exported as .json')
