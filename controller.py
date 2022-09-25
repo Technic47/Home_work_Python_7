@@ -6,6 +6,7 @@ import os
 
 
 def start():
+    """main console loop"""
     print('System started')
     logger.start_logger()
     while True:

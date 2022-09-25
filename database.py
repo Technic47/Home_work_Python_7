@@ -64,7 +64,7 @@ def collect_data() -> []:
 
 
 def save_data(data) -> {}:
-    """adds line to db"""
+    """adds line to current db"""
     cols = get_cols()
     with open(current_database, 'a', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
@@ -108,11 +108,11 @@ def search():
                 # print(row)
                 if request in row[i]:
                     print(row)
-
     return key, request
 
 
-def merge(path):
+def merge(path: str) -> None:
+    """Merge selected db to current"""
     cols = get_cols()
     with open(path, newline='') as csvfile:
         data = csv.DictReader(csvfile)
@@ -123,7 +123,7 @@ def merge(path):
     print('File merged to current db')
 
 
-def export_json():
+def export_json() -> None:
     """export current db to .json file"""
     json_array = []
     with open(current_database, encoding='utf-8') as csvfile:
@@ -137,14 +137,15 @@ def export_json():
         jsonfile.write(jsonstr)
 
 
-def import_json():
+def import_json() -> None:
+    """import json file to cache and allow to merge it to current db"""
     cols = get_cols()
     print("Destination path:")
     json_path = UI.get_data() + '.json'
     with open(json_path, encoding='utf-8') as inputfile:
         df = pandas.read_json(inputfile)
     df.to_csv('cache/testfile.csv', encoding='utf-8', index=False)
-    print("Would you like to add imported data to current db?\nY/N")
+    print("Would you like to merge imported data to current db?\nY/N")
     answer = UI.get_data()
     if answer == 'Y' or answer == 'y':
         with open('cache/testfile.csv', newline='') as csvfile:
@@ -158,14 +159,16 @@ def import_json():
         print('Imported file stored in: "cache/testfile.csv"')
 
 
-def convert_xml(headers, row):
+def convert_xml(headers, row) -> str:
+    """preparation for convertion to xml"""
     s = f'<row>\n'
     for header, item in zip(headers, row):
         s += f'    <{header}>' + f'{item}' + f'</{header}>\n'
     return s + '</row>'
 
 
-def export_xml():
+def export_xml() -> None:
+    """export current db to .xml file"""
     with open(current_database, 'r') as csvfile:
         reader = csv.reader(csvfile)
         headers = next(reader)
@@ -179,7 +182,8 @@ def export_xml():
         xmlfile.write(xml)
 
 
-def import_xml():
+def import_xml() -> None:
+    """import .xml file and save it to selected path"""
     cols = get_cols()
     rows = []
     print("Destination path:")
