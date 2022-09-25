@@ -1,5 +1,7 @@
 import datetime
 import database
+import glob
+import os
 
 logs_path = r'logs'
 current_log = ''
@@ -36,3 +38,9 @@ def stop_logger():
     with open(current_log, 'a') as text:
         text.write(f"{now} - session closed;")
     print('Logger stopped.')
+
+
+def delete():
+    for file in glob.glob('logs/*'):
+        os.remove(file)
+        print('All logs deleted')

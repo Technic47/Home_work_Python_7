@@ -1,3 +1,4 @@
+import cache
 import logger
 import database
 import os
@@ -9,6 +10,8 @@ def start():
     while True:
         match input('Enter command: '):
             case 'exit':
+                cache.delete()
+                logger.log('cache', 'cleared')
                 logger.stop_logger()
                 quit()
             case 'help':
@@ -55,3 +58,5 @@ def start():
                 logger.log(database.search(), 'searched')
             case 'clear log':
                 logger.clear()
+            case 'delete logs':
+                logger.delete()
