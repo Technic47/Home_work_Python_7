@@ -16,7 +16,7 @@ def start_logger() -> str:
     path = logs_path + name
     with open(path, 'w') as text:
         text.write(
-            f"Current database - {database.current_database}\n"
+            f"Current database - {database.show_current()}\n"
             f"{now} - session started;\n")
     print(f'Logger started. Current log - {name}')
     current_log = path

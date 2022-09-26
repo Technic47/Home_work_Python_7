@@ -19,20 +19,20 @@ def start():
             case 'help':
                 print('READ_ME file may help you.')
             case 'new':
-                database1 = logger.log(database.create_new(), 'create')
+                database1 = logger.log(database.create_new(), 'created')
                 print(f'New database created: {database1}')
-                print("Switch to current database?")
-                answer = input('Y/N: ')
+                print("Set a new database as current?\nY/N:")
+                answer = UI.get_data()
                 if answer == 'Y' or answer == 'y' or answer == 'yes':
-                    database.current_database = database1
-                    logger.log(database.current_database, 'set as current')
+                    database.set_current(database1)
+                    logger.log(database.show_current(), 'set as current')
             case 'show dir':
                 dirname = 'database'
                 for filename in os.listdir(dirname):
                     print(filename)
                 logger.log('databases', 'shown')
             case 'show current':
-                print(database.current_database)
+                print(database.show_current())
                 logger.log('current_database', 'shown')
             case 'add':
                 logger.log(database.save_data(database.collect_data()), 'added')
@@ -43,7 +43,7 @@ def start():
                 name = input("Enter name of database: ")
                 database.select_base(name)
                 logger.log(name, 'selected')
-                logger.log(database.current_database, ' set as current')
+                logger.log(database.show_current(), ' set as current')
             case 'merge':
                 print("Enter name of database: ")
                 path = database.data_path + '/' + UI.get_data() + '.csv'
@@ -67,5 +67,7 @@ def start():
                 logger.clear()
             case 'delete logs':
                 logger.delete()
+            case 'delete':
+                logger.log(database.custom_delete(), 'deleted')
             case _:
                 print('Wrong command')

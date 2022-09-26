@@ -5,13 +5,6 @@ import datetime
 import json
 import UI
 
-setup = 'setup.txt'
-data_path = r'database'
-with open(setup, 'r') as file:
-    current_database = file.read()
-# current_database = 'database/22092022.csv'
-setup = 'setup.txt'
-
 
 def create_new() -> str:
     """Create a new database"""
@@ -31,13 +24,24 @@ def set_cols(path) -> None:
     :param path: db path
     """
     print("Enter your cols via space:")
-    # cols = 'id ' + UI.get_data()
-    # data = dict.fromkeys(cols.split(' '))
     data = dict.fromkeys(UI.get_data().split(' '))
     print(data)
     with open(path, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=",")
         writer.writerow(data)
+
+
+def show_current() -> str:
+    """shows current db from setup file"""
+    with open(setup, 'r') as file:
+        current_database = file.read()
+    return current_database
+
+
+def set_current(data) -> None:
+    """change current db to data in setup file"""
+    with open(setup, 'w') as file:
+        file.write(data)
 
 
 def get_info(path) -> None:
@@ -47,10 +51,10 @@ def get_info(path) -> None:
 
 def get_cols() -> []:
     """shows header of db"""
-    with open(current_database, 'r', newline='') as csvfile:
+    with open(show_current(), 'r', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
-        rows = reader.fieldnames
-        return rows
+        cols = reader.fieldnames
+        return cols
 
 
 def collect_data() -> []:
@@ -64,7 +68,7 @@ def collect_data() -> []:
 def save_data(data) -> {}:
     """adds line to current db"""
     cols = get_cols()
-    with open(current_database, 'a', newline='') as csvfile:
+    with open(show_current(), 'a', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
         writer.writerow({cols[0]: data[0], cols[1]: data[1], cols[2]: data[2]})
     return data
@@ -74,28 +78,29 @@ def show_base() -> None:
     """shows all records in current db"""
     rows = get_cols()
     print(rows)
-    with open(current_database, encoding='utf-8') as csvfile:
+    with open(show_current(), encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile, delimiter=",")
         for row in reader:
             print(f'{row[rows[0]]}, {row[rows[1]]}, {row[rows[2]]}')
 
 
-def select_base(name) -> None:
+def select_base(name: str) -> None:
     """selects db and place it to current position"""
-    # global current_database
     try:
-        open(data_path + '/' + name + '.csv')
+        open(data_path + '/' + name + '.csv', 'r')
     except IOError:
         print('File not found!')
     else:
-        with open(setup, 'w') as file:
-            file.write(data_path + '/' + name + '.csv')
-    # current_database = data_path + '/' + name + '.csv'
+        data = data_path + '/' + name + '.csv'
+        set_current(data)
 
 
 def search():
     """Search function in current db"""
+    global indexes
+    indexes = []
     request = ''
+    j = 0
     print("What key you want to search?")
     cols = get_cols()
     print(cols)
@@ -112,11 +117,89 @@ def search():
                 if request == '':
                     print('Empty input')
                 else:
-                    csvfile = csv.reader(open(current_database, 'r'), delimiter=",")
+                    csvfile = csv.reader(open(show_current(), 'r'), delimiter=",")
                     for row in csvfile:
+                        j += 1
                         if request in row[i]:
-                            print(row)
+                            indexes.append(j)
+                            print(j, row)
+                    del_choose()
     return key, request
+
+
+def del_choose() -> None:
+    """support function. Allow to del positions after search"""
+    print('Would you like to delete your request from db?')
+    print('Y/N')
+    answer = UI.get_data()
+    if answer == 'Y' or answer == "y":
+        print('All of them?')
+        print('Y/N')
+        answer2 = UI.get_data()
+        if answer2 == 'Y' or answer2 == "y":
+            delete(indexes)
+        else:
+            print('What positions would you like to delete?')
+            show_indexed(indexes)
+            numbers = list(map(int, UI.get_data().replace(' ', ',').replace(';', ',')
+                               .replace('.', ',').split(',')))
+            delete(numbers)
+        print('Positions were deleted!')
+
+
+def custom_delete():
+    """user guide for removal choice"""
+    print('Do you know positions for removal?')
+    print('Y/N')
+    answer = UI.get_data()
+    if answer == 'Y' or answer == "y":
+        print('What positions would you like to delete?')
+        show_indexed(indexes)
+        numbers = list(map(int, UI.get_data().replace(' ', ',').replace(';', ',')
+                           .replace('.', ',').split(',')))
+        show_indexed(numbers)
+        print('Delete these positions?')
+        print('Y/N')
+        answer = UI.get_data()
+        if answer == 'Y' or answer == "y":
+            delete(numbers)
+            print('Positions deleted.')
+            return numbers
+    elif answer == 'N' or answer == "n":
+        print('Use "search" tool. It will help you to find positions.')
+        return 'Nothing'
+    else:
+        return 'Nothing'
+
+
+def show_indexed(numbers) -> None:
+    """shows positions with dedicated numbers in current db"""
+    j = 1
+    with open(show_current(), encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=",")
+        for row in reader:
+            j += 1
+            if j in numbers:
+                print(j, row)
+
+
+def delete(numbers) -> None:
+    """removal procedure. Uses cached_base for re-writing current db"""
+    j = 1
+    with open(show_current(), 'r', encoding='utf-8') as csvfile:
+        reader = csv.reader(csvfile, delimiter=",")
+        with open('cache/cached_base.csv', 'w', newline='') as cache_file:
+            writer = csv.writer(cache_file, delimiter=",")
+            for row in reader:
+                if j not in numbers:
+                    writer.writerow(row)
+                j += 1
+    with open(show_current(), 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=",")
+        with open('cache/cached_base.csv', 'r', encoding='utf-8') as cache_file:
+            reader = csv.reader(cache_file, delimiter=",")
+            for row in reader:
+                writer.writerow(row)
 
 
 def merge(path: str) -> None:
@@ -129,8 +212,8 @@ def merge(path: str) -> None:
         cols = get_cols()
         with open(path, newline='') as csvfile:
             data = csv.DictReader(csvfile)
-            with open(current_database, 'a', newline='') as csvfile:
-                writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
+            with open(show_current(), 'a', newline='') as csvfile2:
+                writer = csv.DictWriter(csvfile2, delimiter=",", fieldnames=cols)
                 for row in data:
                     writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
         print('File merged to current db')
@@ -139,7 +222,7 @@ def merge(path: str) -> None:
 def export_json() -> None:
     """export current db to .json file"""
     json_array = []
-    with open(current_database, encoding='utf-8') as csvfile:
+    with open(show_current(), encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             json_array.append(row)
@@ -168,7 +251,7 @@ def import_json() -> None:
         if answer == 'Y' or answer == 'y':
             with open('cache/testfile.csv', newline='') as csvfile:
                 data = csv.DictReader(csvfile)
-                with open(current_database, 'a', newline='') as csvfile:
+                with open(show_current(), 'a', newline='') as csvfile:
                     writer = csv.DictWriter(csvfile, delimiter=",", fieldnames=cols)
                     for row in data:
                         writer.writerow({cols[0]: row[cols[0]], cols[1]: row[cols[1]], cols[2]: row[cols[2]]})
@@ -187,7 +270,7 @@ def convert_xml(headers, row) -> str:
 
 def export_xml() -> None:
     """export current db to .xml file"""
-    with open(current_database, 'r') as csvfile:
+    with open(show_current(), 'r') as csvfile:
         reader = csv.reader(csvfile)
         headers = next(reader)
         xml = '<data>\n'
@@ -225,3 +308,9 @@ def import_xml() -> None:
 
         df = pandas.DataFrame(rows, columns=cols)
         df.to_csv('test.csv')
+
+
+setup = 'setup.txt'
+data_path = r'database'
+indexes = []
+setup = 'setup.txt'

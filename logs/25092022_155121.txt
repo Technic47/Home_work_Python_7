@@ -1,9 +1,0 @@
-Current database - database/22092022.csv
-25092022_155121 - session started;
-25092022_155121 - current_database shown;
-25092022_155121 - current database shown;
-25092022_155121 - 24092022 selected;
-25092022_155121 - database/22092022.csv  set as current;
-25092022_155121 - current_database shown;
-25092022_155121 - cache cleared;
-25092022_155121 - session closed;
